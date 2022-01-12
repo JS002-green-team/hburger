@@ -1,1 +1,1 @@
-import "firebase";
+import "./firebase";
