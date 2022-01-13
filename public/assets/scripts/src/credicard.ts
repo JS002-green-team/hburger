@@ -3,29 +3,26 @@ import setFormValues from "./functions/setFormValues";
 import { HTMLInputField } from "./types/HTMLInputField";
 import IMask from "imask";
 
-const page = document.querySelector("#form-credicard") as HTMLElement;
+const page = document.querySelector("#credicard") as HTMLFormElement;
 
 if (page) {
-  const form = page.querySelector("form") as HTMLFormElement;
   const name = page.querySelector("#name") as HTMLInputField;
   const number = page.querySelector("#number") as HTMLInputField;
   const expiry = page.querySelector("#expiry") as HTMLInputField;
   const InputCvv = page.querySelector("#cvv") as HTMLInputField;
-  const parcelas = page.querySelector("#parcelas") as HTMLSelectElement;
+  const selectParcelas = page.querySelector("#parcelas") as HTMLSelectElement;
+  const selectBanco = page.querySelector("#bank") as HTMLSelectElement;
+  const btnEfetuaPagamento = page.querySelector("#efetua-pagamento") as HTMLButtonElement;
 
   const values = queryStringToJSON();
   const year = new Date().getFullYear();
-  const month = new Date("2022/02/02").getMonth();
+  const month = new Date().getMonth();
+  const valorPedido: number = +values.valor;
 
   IMask(number, {
     mask: "0000 0000 0000 0000",
   });
 
-  //parcelas.innerHTML = "";
-
-  //parcelas.appendChild(`<option value="1">1 parcela de R$ ${values.valor} (R$ ${values.valor})</option>`)
-
-  parcelas.innerHTML = `<option value="1">1 parcela de R$ ${values.valor} (R$ ${values.valor})</option>`;
 
   IMask(expiry, {
     mask: "MM/YY",
@@ -59,4 +56,59 @@ if (page) {
       }
     }
   });
+
+  const calculaParcelas = (() => {
+    selectParcelas.innerHTML = `<option value="0">Slecione o número de parcelas</option>`;
+    const option = document.createElement("option");
+    if (valorPedido >= 100) {
+      const numParcelas = Math.trunc((valorPedido / 50));
+      if (numParcelas <= 4) {
+        for (let i = 1; i <= numParcelas; i++) {
+
+          option.innerHTML = `<option value="${i}">${i} parcela de R$ ${valorPedido / i} (R$ ${valorPedido / i})</option>`;
+          selectParcelas.appendChild(option);
+        }
+      } else {
+        for (let i = 1; i <= 4; i++) {
+
+          option.innerHTML = `<option value="${i}">${i} parcela de R$ ${valorPedido / i} (R$ ${valorPedido / i})</option>`;
+          selectParcelas.appendChild(option);
+        }
+      }
+    } else {
+      option.innerHTML = `<option value="1">1 parcela de R$ ${valorPedido} (R$ ${valorPedido})</option>`;
+      selectParcelas.appendChild(option);
+    }
+  });
+  calculaParcelas();
+  btnEfetuaPagamento.addEventListener("click", (e) =>{
+
+    const dados = { 
+      "nome": name.value,
+      "numero": number.value,
+      "dtExpiracao": expiry.value,
+      "cvv": InputCvv.value,
+      "numParcelas": selectParcelas.selectedIndex,
+      "valorParcela": valorPedido/+selectParcelas.selectedIndex,
+      "banco": selectBanco.options[selectBanco.selectedIndex].text 
+    };
+    console.log(dados);
+    if(name.value =="" || number.value =="" || expiry.value =="" || InputCvv.value ==""){
+      alert("Verifique se todos os campos foram preenchidos corretamente");
+    }else{
+      const dados = {
+        "nome": name.value,
+        "numero": number.value,
+        "dtExpiracao": expiry.value,
+        "cvv": InputCvv.value,
+        "numParcelas": selectParcelas.selectedIndex,
+        "valorParcela": valorPedido / +selectBanco.options[selectBanco.selectedIndex].value,
+        "banco": selectBanco.options[selectBanco.selectedIndex].text
+      };
+      console.log(dados);
+    }
+  });
+
+  
+
 }

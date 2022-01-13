@@ -1,86 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Projeto Hburger do Hcode Lab" />
     <title>HBurguer</title>
     <link rel="stylesheet" href="assets/css/main.css" />
-    <link
-      rel="shortcut icon"
-      href="assets/images/logo-favicon-green.svg"
-      type="image/x-icon"
-    />
-  </head>
+    <link rel="shortcut icon" href="assets/images/logo-favicon-green.svg" type="image/x-icon" />
+</head>
 
-  <body id="app">
-    <section class="page">
-      <header>
-        <a href="index.html">
-          <img
-            src="assets/images/logo-icon-green.svg"
-            alt="Logo Icone"
-            id="logo-icon"
-          />
-          <img
-            src="assets/images/logo-text-green.svg"
-            alt="Logo Texto"
-            id="logo-text"
-          />
-        </a>
-        <img src="https://i.pravatar.cc/50" alt="Avatar" id="avatar" />
-      </header>
-
-      <main>
+<body id="app">
+    <section class="page" id="credicard">
         <header>
-          <h1>Pagamento</h1>
+            <a href="index.html">
+                <img src="assets/images/logo-icon-green.svg" alt="Logo Icone" id="logo-icon" />
+                <img src="assets/images/logo-text-green.svg" alt="Logo Texto" id="logo-text" />
+            </a>
+            <img src="https://i.pravatar.cc/50" alt="Avatar" id="avatar" />
         </header>
-        <section>
-          <form id="form-credicard">
-            <input
-              type="text"
-              name="number"
-              placeholder="Número do Cartão"
-              id="number"
-            />
 
-            <div class="fields">
-              <div class="field">
-                <input
-                  type="text"
-                  name="validate"
-                  placeholder="Validade"
-                  id="expiry"
-                />
-              </div>
-              <div class="field">
-                <input
-                  type="text"
-                  name="code"
-                  placeholder="Código de Segurança"
-                  id="cvv"
-                />
-              </div>
-            </div>
+        <main>
+            <header>
+                <h1>Pagamento</h1>
+            </header>
+            <section>
+                <form id="form-credicard">
+                    <input type="text" name="number" placeholder="Número do Cartão" id="number" />
 
-            <input type="text" name="name" placeholder="Nome" id="name" />
+                    <div class="fields">
+                        <div class="field">
+                            <input type="text" name="validate" placeholder="Validade" id="expiry" />
+                        </div>
+                        <div class="field">
+                            <input type="text" name="code" placeholder="Código de Segurança" id="cvv" />
+                        </div>
+                    </div>
 
-            <select name="bank">
-              <option>Nubank</option>
-              <option>C6 Bank</option>
-              <option>BS2 Bank</option>
+                    <input type="text" name="name" placeholder="Nome" id="name" />
+
+                    <select name="bank" id="bank">
+              <option value="1">Selecione um Banco</option>
+              <option value="2">Nubank</option>
+              <option value="3">C6 Bank</option>
+              <option value="4">BS2 Bank</option>
             </select>
 
-            <select name="installments" id="parcelas">
+                    <select name="installments" id="parcelas">
               <option value="1">1 parcela de R$ 100,00 (R$ 100,00)</option>
               <option value="2">2 parcelas de R$ 52,26 (R$ 104,52)</option>
             </select>
-          </form>
-        </section>
-      </main>
+                </form>
+            </section>
+        </main>
 
-      <footer>
-        <button type="button">
+        <footer>
+            <button type="button" id="efetua-pagamento">
           <svg
             width="24"
             height="24"
@@ -95,8 +70,9 @@
           </svg>
           Confirmar Pagamento
         </button>
-      </footer>
+        </footer>
     </section>
     <script src="bundle.js"></script>
-  </body>
+</body>
+
 </html>
