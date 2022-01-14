@@ -59,43 +59,44 @@ if (page) {
 
   const calculaParcelas = (() => {
     selectParcelas.innerHTML = `<option value="0">Slecione o número de parcelas</option>`;
-    const option = document.createElement("option");
+    
     if (valorPedido >= 100) {
       const numParcelas = Math.trunc((valorPedido / 50));
       if (numParcelas <= 4) {
         for (let i = 1; i <= numParcelas; i++) {
-
+          let option = document.createElement("option");
           option.innerHTML = `<option value="${i}">${i} parcela de R$ ${valorPedido / i} (R$ ${valorPedido / i})</option>`;
           selectParcelas.appendChild(option);
         }
       } else {
         for (let i = 1; i <= 4; i++) {
-
+          let option = document.createElement("option");
           option.innerHTML = `<option value="${i}">${i} parcela de R$ ${valorPedido / i} (R$ ${valorPedido / i})</option>`;
           selectParcelas.appendChild(option);
         }
       }
-    } else {
+    } else if (valorPedido) {
+      let option = document.createElement("option");
       option.innerHTML = `<option value="1">1 parcela de R$ ${valorPedido} (R$ ${valorPedido})</option>`;
       selectParcelas.appendChild(option);
     }
   });
   calculaParcelas();
-  btnEfetuaPagamento.addEventListener("click", (e) =>{
+  btnEfetuaPagamento.addEventListener("click", (e) => {
 
-    const dados = { 
+    const dados = {
       "nome": name.value,
       "numero": number.value,
       "dtExpiracao": expiry.value,
       "cvv": InputCvv.value,
       "numParcelas": selectParcelas.selectedIndex,
-      "valorParcela": valorPedido/+selectParcelas.selectedIndex,
-      "banco": selectBanco.options[selectBanco.selectedIndex].text 
+      "valorParcela": valorPedido / +selectParcelas.selectedIndex,
+      "banco": selectBanco.options[selectBanco.selectedIndex].text
     };
     console.log(dados);
-    if(name.value =="" || number.value =="" || expiry.value =="" || InputCvv.value ==""){
+    if (name.value == "" || number.value == "" || expiry.value == "" || InputCvv.value == "") {
       alert("Verifique se todos os campos foram preenchidos corretamente");
-    }else{
+    } else {
       const dados = {
         "nome": name.value,
         "numero": number.value,
@@ -109,6 +110,6 @@ if (page) {
     }
   });
 
-  
+
 
 }
