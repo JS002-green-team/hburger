@@ -1,7 +1,6 @@
 import { onAuthStateChanged, getAuth, signOut } from "firebase/auth";
 
 const auth = getAuth();
-const page = document.querySelector("#page") as HTMLImageElement;
 const userPhoto = document.querySelector("img#avatar") as HTMLImageElement;
 
 if (userPhoto) {
