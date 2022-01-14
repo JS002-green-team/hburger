@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "sass": "sass --watch assets/sass/main.scss:assets/css/main.css",
-    "sass:build": "sass assets/sass/main.scss:assets/css/main.css --style=compressed",
+    "sass": "sass --watch public/assets/sass/main.scss:public/assets/css/main.css",
+    "sass:build": "sass public/assets/sass/main.scss:public/assets/css/main.css --style=compressed",
     "dev": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
