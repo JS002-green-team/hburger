@@ -11,4 +11,13 @@ export default function iniciaModal(modalID: string) {
     //     });
     // }
 
+    const modal = document.getElementById(modalID);
+    if (modal) {
+        modal.classList.add('mostrar');
+        modal.addEventListener('click', (e) => {
+            modal.classList.remove('mostrar');
+            localStorage.fechaModal = modalID;
+        });
+    }
+
 }

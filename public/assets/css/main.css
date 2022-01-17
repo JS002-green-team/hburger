@@ -896,4 +896,76 @@ body, div, section, main, article, header, footer, form, label {
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.3);
 }
 
+.user-modal-container {
+  width: 100vw;
+  height: 100vw;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 2010;
+  display: none;
+  justify-content: right;
+  align-items: top;
+  background: rgba(0, 0, 0, 0.5);
+}
+.user-modal-container h3 {
+  text-align: center;
+}
+
+.user-modal {
+  background: rgba(89, 174, 22, 0.5);
+  width: 25%;
+  min-width: 300px;
+  height: 100vw;
+  align-items: center;
+  padding: 30px;
+  position: absolute;
+}
+.user-modal img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+.user-modal ul {
+  text-align: center;
+  list-style: none;
+}
+
+@keyframes deslizar {
+  from {
+    opacity: 0;
+    transform: translate3d(-60, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+.mostrar .modal {
+  animation: deslizar 0.9s;
+}
+
+.user-modal-container.mostrar {
+  display: flex;
+}
+
+#fechar-profile {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 44%;
+  right: 50%;
+  border-radius: 50%;
+  background: #59AE16;
+  color: white;
+  font-size: 35px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 0px;
+  cursor: pointer;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
 /*# sourceMappingURL=main.css.map */

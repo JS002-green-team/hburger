@@ -2,6 +2,8 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { HTMLInputField } from "./types/HTMLInputField";
 import IMask from "imask";
+import iniciaModal from "./functions/acionaModal";
+import showSidebarUser from "./functions/showSidebarUser";
 
 const page = document.querySelector("#credicard") as HTMLFormElement;
 
@@ -13,6 +15,7 @@ if (page) {
   const selectParcelas = page.querySelector("#parcelas") as HTMLSelectElement;
   const selectBanco = page.querySelector("#bank") as HTMLSelectElement;
   const btnEfetuaPagamento = page.querySelector("#efetua-pagamento") as HTMLButtonElement;
+  const avatar = page.querySelector("#avatar") as HTMLImageElement;
 
   const values = queryStringToJSON();
   const year = new Date().getFullYear();
@@ -52,7 +55,7 @@ if (page) {
         currentMonth < month + 1 ||
         yearCard < +year.toString().substring(2, 4)
       ) {
-        acionaModal();
+        iniciaModal("modal-promocao");
       }
     }
   });
@@ -94,7 +97,6 @@ if (page) {
     }
   })
 
-
   btnEfetuaPagamento.addEventListener("click", (e) => {
 
     const dados = {
@@ -108,7 +110,7 @@ if (page) {
     };
     console.log(dados);
     if (name.value == "" || number.value == "" || expiry.value == "" || InputCvv.value == "") {
-      acionaModal();
+      iniciaModal("modal-promocao");
     } else {
       const dados = {
         "nome": name.value,
@@ -122,7 +124,4 @@ if (page) {
       console.log(dados);
     }
   });
-
-
-
 }
