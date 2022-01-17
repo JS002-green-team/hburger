@@ -52,7 +52,7 @@ if (page) {
         currentMonth < month + 1 ||
         yearCard < +year.toString().substring(2, 4)
       ) {
-        alert("Verifique a data de validade");
+        acionaModal();
       }
     }
   });
@@ -82,6 +82,19 @@ if (page) {
     }
   });
   calculaParcelas();
+
+  const acionaModal = (() =>{
+    const modal = document.getElementById("modal-promocao");
+    if (modal) {
+      modal.classList.add('mostrar');
+      modal.addEventListener('click', (e) => {
+          modal.classList.remove('mostrar');
+          localStorage.fechaModal = "modal-promocao";        
+      });
+    }
+  })
+
+
   btnEfetuaPagamento.addEventListener("click", (e) => {
 
     const dados = {
@@ -95,7 +108,7 @@ if (page) {
     };
     console.log(dados);
     if (name.value == "" || number.value == "" || expiry.value == "" || InputCvv.value == "") {
-      alert("Verifique se todos os campos foram preenchidos corretamente");
+      acionaModal();
     } else {
       const dados = {
         "nome": name.value,
