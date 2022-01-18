@@ -4,6 +4,7 @@ import "./auth-register";
 import "./auth-current";
 import "./auth-forget";
 import "./orders";
+import "./auth-login";
 import showSidebarUser from "./functions/showSidebarUser";
 
 showSidebarUser();
