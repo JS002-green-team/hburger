@@ -29,7 +29,19 @@ if (formRegister) {
           });
       })
       .catch((error) => {
-        alert(error.message);
+        switch (error.message) {
+          case "Firebase: Error (auth/invalid-email).":
+            alert("Erro: E-mail inválido");
+            break;
+          case "Firebase: Password should be at least 6 characters (auth/weak-password).":
+            alert("Erro: A senha deve ter pelo menos 6 caracteres.");
+            break;
+          case "Firebase: Error (auth/email-already-in-use).":
+            alert("Erro: O email fornecido já está em uso.");
+            break;
+          default:
+            console.log(error.message);
+        }
       });
   });
 }
