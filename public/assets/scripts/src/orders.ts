@@ -1,4 +1,6 @@
 import iniciaModal from "./functions/acionaModal";
+import acionaModalDangerAlert from "./functions/acionaModalDangerAlert";
+import criaModalDangerAlert from "./functions/criaModalDangerAlert";
 import criaSidebarUser from "./functions/criaSidebarUser";
 
 const orders = document.querySelector('#orders');
@@ -25,13 +27,8 @@ const ordersDb = [
 if (orders) {
     const modais = orders.querySelector("#modais") as HTMLDivElement;
     criaSidebarUser(modais);
+    criaModalDangerAlert(modais);
     const ulOrders = orders.querySelector('#list-orders') as HTMLUListElement;
-
-    function details(id: string) {
-        let modal = orders?.querySelector("#order-modal h3") as HTMLHeadingElement;
-        modal.innerText = "Olá eu sou o modal " + id;
-        iniciaModal("order-modal");
-    }
 
     cleanEl(ulOrders);
     ordersDb.forEach(el => {
@@ -39,6 +36,7 @@ if (orders) {
         showContent(ulOrders, li);
     });
     const orderDetails = orders.querySelectorAll(".details");
+    const excluir = orders.querySelectorAll(".exclude");
 
     
     orderDetails.forEach(el => {
@@ -52,6 +50,15 @@ if (orders) {
             console.log(cont.dataset.pedido);
         })
     });
+
+    excluir.forEach(el =>{
+        let btnExcluir = el as HTMLButtonElement;
+        el.addEventListener("click", (e) => {
+            if (btnExcluir.dataset.excluir){
+                acionaModalDangerAlert("Tem certeza que deseja excluir o pedido: ", btnExcluir.dataset.excluir);
+            }           
+        })
+    })
 }
 
 function cleanEl(el: HTMLUListElement) {
@@ -99,7 +106,7 @@ function createOrderTicket(el: isOrder) {
                     <path d="M16 2V16H2V2H16ZM17.1 0H0.9C0.4 0 0 0.4 0 0.9V17.1C0 17.5 0.4 18 0.9 18H17.1C17.5 18 18 17.5 18 17.1V0.9C18 0.4 17.5 0 17.1 0ZM8 4H14V6H8V4ZM8 8H14V10H8V8ZM8 12H14V14H8V12ZM4 4H6V6H4V4ZM4 8H6V10H4V8ZM4 12H6V14H4V12Z" fill="#070D0D"/>
                 </svg>                            
         </button>
-            <button type="button" aria-label="Excluir">
+            <button type="button" aria-label="Excluir" class="exclude" data-excluir="${el.id}">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z" fill="#070D0D"/>
                 </svg>                            
