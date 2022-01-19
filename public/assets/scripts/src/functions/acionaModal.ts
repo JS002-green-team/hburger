@@ -1,22 +1,16 @@
 export default function iniciaModal(modalID: string) {
 
-    // const modal = document.getElementById(modalID);
-    // if (modal) {
-    //     modal.classList.add('mostrar');
-    //     modal.addEventListener('click', (e) => {
-    //         if (e.target.id == modalID || e.target.className == 'fechar') {
-    //             modal.classList.remove('mostrar');
-    //             localStorage.fechaModal = modalID;
-    //         }
-    //     });
-    // }
-
     const modal = document.getElementById(modalID);
     if (modal) {
         modal.classList.add('mostrar');
-        modal.addEventListener('click', (e) => {
-            modal.classList.remove('mostrar');
-            localStorage.fechaModal = modalID;
+        modal.addEventListener('click', (e: Event) => {
+            const objClik = e.target as HTMLElement;
+            if (objClik.id == "fechar-modal" || objClik.id == "user-modal") {
+                console.log(objClik.id);
+                modal.classList.remove('mostrar');
+                localStorage.fechaModal = modalID;
+            }
+
         });
     }
 

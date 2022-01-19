@@ -1,6 +1,8 @@
 import iniciaModal from "./functions/acionaModal";
+import criaSidebarUser from "./functions/criaSidebarUser";
 
 const orders = document.querySelector('#orders');
+
 
 interface isOrder {
     date: string,
@@ -18,17 +20,11 @@ const ordersDb = [
     { "date": "20/01/2022", "price": "249,50", "itens": 2, "id": 6666666 },
     { "date": "21/01/2022", "price": "149,50", "itens": 2, "id": 77777777 },
     { "date": "22/01/2022", "price": "349,50", "itens": 2, "id": 8888888 },
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 11111111 },
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 22222222 },
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 33333333 },
-    { "date": "18/01/2022", "price": "149,50", "itens": 2, "id": 44444444 },
-    { "date": "19/01/2022", "price": "49,50", "itens": 2, "id": 55555555 },
-    { "date": "20/01/2022", "price": "249,50", "itens": 2, "id": 6666666 },
-    { "date": "21/01/2022", "price": "149,50", "itens": 2, "id": 77777777 },
-    { "date": "22/01/2022", "price": "349,50", "itens": 2, "id": 8888888 },
 ];
 
 if (orders) {
+    const modais = orders.querySelector("#modais") as HTMLDivElement;
+    criaSidebarUser(modais);
     const ulOrders = orders.querySelector('#list-orders') as HTMLUListElement;
 
     function details(id: string) {

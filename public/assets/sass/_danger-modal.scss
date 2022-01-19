@@ -1,0 +1,30 @@
+.danger-modal-container {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.danger-modal {
+    background: var(--white);
+    width: 40%;
+    min-width: 300px;
+    padding: 40px;
+    border: 5px solid #59AE16;
+    box-shadow: 0 0 0 10px white;
+    border-radius: 10px;
+    position: relative;
+    display: inline;
+    align-items: center;
+    justify-content: center;
+    h3 {
+        color: #d63031;
+        text-align: center;
+    }
+}
