@@ -5,7 +5,6 @@ import IMask from "imask";
 import iniciaModal from "./functions/acionaModal";
 import showSidebarUser from "./functions/showSidebarUser";
 import criaSidebarUser from "./functions/criaSidebarUser";
-import criaModalAlert from "./functions/criaModalAlert ";
 
 const page = document.querySelector("#credicard") as HTMLFormElement;
 
@@ -27,7 +26,6 @@ if (page) {
   const valorPedido: number = +values.valor;
 
   criaSidebarUser(modais);
-  criaModalAlert(modais);
 
   IMask(number, {
     mask: "0000 0000 0000 0000",

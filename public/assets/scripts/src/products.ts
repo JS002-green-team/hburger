@@ -4,15 +4,21 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
+<<<<<<< HEAD
 import criaSidebarUser from "./functions/criaSidebarUser";
+=======
+>>>>>>> parent of 4cb1a50 (comit do dia)
 
 const page = document.querySelector("#products") as HTMLElement;
 
 console.dir(page);
 
 if (page) {
+<<<<<<< HEAD
   const modais = page.querySelector("#modais") as HTMLDivElement;
   criaSidebarUser(modais);
+=======
+>>>>>>> parent of 4cb1a50 (comit do dia)
   const db = getFirestore();
   let productsSelected: number[] = [];
   let products: ProductItem[] = [];
