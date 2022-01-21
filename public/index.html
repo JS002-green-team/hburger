@@ -35,113 +35,22 @@
         <header>
           <h1>Monte o seu <span>Hburger</span></h1>
         </header>
+
         <section id="products">
-          <div class="category">
-            <h2>Escolha o pão <small>(escolha apenas um)</small></h2>
-            <ul>
-              <li>
-                <label>
-                  <input type="radio" name="item" checked />
-                  <span></span>
-                  <h3>Pão Tradicional</h3>
-                  <div>R$ 2,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="item" />
-                  <span></span>
-                  <h3>Pão Australiano</h3>
-                  <div>R$ 3,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="radio" name="item" />
-                  <span></span>
-                  <h3>Pão de Batata</h3>
-                  <div>R$ 2,50</div>
-                </label>
-              </li>
-            </ul>
-          </div>
-          <div class="category">
-            <h2>Ingredientes</h2>
-            <ul>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne Bovina 125g</h3>
-                  <div>R$ 3,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Frango 125g</h3>
-                  <div>R$ 2,50</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Peixe 125g</h3>
-                  <div>R$ 2,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne Bovina 125g</h3>
-                  <div>R$ 3,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Frango 125g</h3>
-                  <div>R$ 2,50</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Peixe 125g</h3>
-                  <div>R$ 2,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne Bovina 125g</h3>
-                  <div>R$ 3,00</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Frango 125g</h3>
-                  <div>R$ 2,50</div>
-                </label>
-              </li>
-              <li>
-                <label>
-                  <input type="checkbox" name="item" />
-                  <span></span>
-                  <h3>Carne de Peixe 125g</h3>
-                  <div>R$ 2,00</div>
-                </label>
-              </li>
-            </ul>
-          </div>
+          <form action="orders.html">
+            <div class="category">
+              <h2>Escolha o pão <small>(escolha apenas um)</small></h2>
+              <ul>
+                <li class="breads"></li>
+              </ul>
+            </div>
+            <div class="category">
+              <h2>Ingredientes</h2>
+              <ul>
+                <li class="ingredients"></li>
+              </ul>
+            </div>
+          </form>
         </section>
       </main>
 
@@ -170,7 +79,7 @@
         </svg>
         <strong>Bandeja<small>2 hamburguers</small></strong>
       </header>
-      <section>
+      <section id="items">
         <ul>
           <li>
             <div>Hamburguer 1</div>

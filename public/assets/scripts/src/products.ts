@@ -7,17 +7,18 @@ import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 
 const page = document.querySelector("#products") as HTMLElement;
 
-console.dir(page);
-
 if (page) {
   const db = getFirestore();
   let productsSelected: number[] = [];
-  let products: ProductItem[] = [];
+  let breads: ProductItem[] = [];
+  let ingredients: ProductItem[] = [];
 
   const calcTotal = () => {
-    const totalElement = document.querySelector(".total") as HTMLSpanElement;
+    const totalElement = document.querySelector(
+      "#app > aside > footer > div.price"
+    ) as HTMLSpanElement;
 
-    const selected = products.filter((product) =>
+    const selected = breads.filter((product) =>
       productsSelected.find((id) => product.id === id)
     );
 
@@ -35,7 +36,7 @@ if (page) {
 
     productsSelected.forEach((id) => {
       const linha = document.createElement("tr");
-      const product = products.find((s) => s.id === id);
+      const product = breads.find((s) => s.id === id);
 
       if (product) {
         linha.innerHTML = `
@@ -68,46 +69,69 @@ if (page) {
       button.disabled = true;
     }
 
-    calcTotal();
-    renderCart();
+    //calcTotal();
+    //renderCart();
   };
 
-  const tpl = document.querySelector("#tpl-label") as HTMLScriptElement;
-  const options = page.querySelector(".options") as HTMLDivElement;
+  const items = document.querySelector("#items") as HTMLElement;
+  const breadsLi = page.querySelector(".breads") as HTMLDivElement;
+  const ingredientsLi = page.querySelector(".ingredients") as HTMLDivElement;
   const values = queryStringToJSON();
   const form = page.querySelector("form") as HTMLFormElement;
 
   setFormValues(form, values);
 
-  options.innerHTML = "";
+  const renderBreads = () => {
+    breadsLi.innerHTML = "";
 
-  const renderProducts = () => {
-    options.innerHTML = "";
+    breads.forEach((item) => {
+      const label = document.createElement("label");
 
-    products.forEach((item) => {
-      item.priceFormated = formatCurrency(item.price);
+      label.innerHTML = `
+        <input type="radio" name="breads" value="${item.id}" checked />
+        <span></span>
+        <h3>${item.description}</h3>
+        <div>${formatCurrency(item.price)}</div>
+      `;
 
-      const label = appendChild(
-        "label",
-        eval("`" + tpl.innerText + "`"),
-        options
-      );
-
-      const labelInput = label.querySelector("input") as HTMLInputElement;
-
-      labelInput.addEventListener("change", productSelectedChange);
+      breadsLi.appendChild(label);
+      //const labelInput = label.querySelector("input") as HTMLInputElement;
+      //labelInput.addEventListener("change", productSelectedChange);
     });
   };
 
-  renderCart();
+  const renderIngredients = () => {
+    ingredientsLi.innerHTML = "";
+
+    ingredients.forEach((item) => {
+      const label = document.createElement("label");
+
+      label.innerHTML = `
+        <input type="radio" name="ingredients" value="${item.id}" checked />
+        <span></span>
+        <h3>${item.description}</h3>
+        <div>${formatCurrency(item.price)}</div>
+      `;
+
+      ingredientsLi.appendChild(label);
+      //const labelInput = label.querySelector("input") as HTMLInputElement;
+      //labelInput.addEventListener("change", productSelectedChange);
+    });
+  };
+
+  //renderCart();
 
   onSnapshot(collection(db, "products"), (collection) => {
-    products = [];
+    breads = [];
+    ingredients = [];
 
     collection.forEach((doc) => {
-      products.push(doc.data() as ProductItem);
+      doc.data().name === "Pão"
+        ? breads.push(doc.data() as ProductItem)
+        : ingredients.push(doc.data() as ProductItem);
     });
 
-    renderProducts();
+    renderBreads();
+    renderIngredients();
   });
 }
