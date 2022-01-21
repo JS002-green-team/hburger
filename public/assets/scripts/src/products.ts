@@ -4,12 +4,17 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
+import criaModalDangerAlert from "./functions/criaModalDangerAlert";
+import criaSidebarUser from "./functions/criaSidebarUser";
 
 const page = document.querySelector("#products") as HTMLElement;
 
 console.dir(page);
 
 if (page) {
+  const modais = page.querySelector("#modais") as HTMLDivElement;
+  console.log(modais);
+  criaSidebarUser(modais);
   const db = getFirestore();
   let productsSelected: number[] = [];
   let products: ProductItem[] = [];

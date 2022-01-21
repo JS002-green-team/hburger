@@ -8,9 +8,7 @@ if (menu) {
   const userName = menu.querySelector("strong") as HTMLElement;
   const userEmail = menu.querySelector("small") as HTMLElement;
   const userPhoto = menu.querySelector("#avatar-modal") as HTMLImageElement;
-  const buttonLogout = menu.querySelector(
-    "#user-modal > div > button:nth-child(5)"
-  ) as HTMLButtonElement;
+  const buttonLogout = menu.querySelector("#logout") as HTMLButtonElement;
 
   buttonLogout.addEventListener("click", (e) => {
     e.preventDefault();
