@@ -4,21 +4,31 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
+<<<<<<< HEAD
+=======
+import criaModalDangerAlert from "./functions/criaModalDangerAlert";
+import criaSidebarUser from "./functions/criaSidebarUser";
+>>>>>>> parent of 4ca8f16 (usando o products que o celso fez)
 
 const page = document.querySelector("#products") as HTMLElement;
 
+console.dir(page);
+
 if (page) {
+<<<<<<< HEAD
+=======
+  const modais = page.querySelector("#modais") as HTMLDivElement;
+  console.log(modais);
+  criaSidebarUser(modais);
+>>>>>>> parent of 4ca8f16 (usando o products que o celso fez)
   const db = getFirestore();
   let productsSelected: number[] = [];
-  let breads: ProductItem[] = [];
-  let ingredients: ProductItem[] = [];
+  let products: ProductItem[] = [];
 
   const calcTotal = () => {
-    const totalElement = document.querySelector(
-      "#app > aside > footer > div.price"
-    ) as HTMLSpanElement;
+    const totalElement = document.querySelector(".total") as HTMLSpanElement;
 
-    const selected = breads.filter((product) =>
+    const selected = products.filter((product) =>
       productsSelected.find((id) => product.id === id)
     );
 
@@ -36,7 +46,7 @@ if (page) {
 
     productsSelected.forEach((id) => {
       const linha = document.createElement("tr");
-      const product = breads.find((s) => s.id === id);
+      const product = products.find((s) => s.id === id);
 
       if (product) {
         linha.innerHTML = `
@@ -69,69 +79,46 @@ if (page) {
       button.disabled = true;
     }
 
-    //calcTotal();
-    //renderCart();
+    calcTotal();
+    renderCart();
   };
 
-  const items = document.querySelector("#items") as HTMLElement;
-  const breadsLi = page.querySelector(".breads") as HTMLDivElement;
-  const ingredientsLi = page.querySelector(".ingredients") as HTMLDivElement;
+  const tpl = document.querySelector("#tpl-label") as HTMLScriptElement;
+  const options = page.querySelector(".options") as HTMLDivElement;
   const values = queryStringToJSON();
   const form = page.querySelector("form") as HTMLFormElement;
 
   setFormValues(form, values);
 
-  const renderBreads = () => {
-    breadsLi.innerHTML = "";
+  options.innerHTML = "";
 
-    breads.forEach((item) => {
-      const label = document.createElement("label");
+  const renderProducts = () => {
+    options.innerHTML = "";
 
-      label.innerHTML = `
-        <input type="radio" name="breads" value="${item.id}" checked />
-        <span></span>
-        <h3>${item.description}</h3>
-        <div>${formatCurrency(item.price)}</div>
-      `;
+    products.forEach((item) => {
+      item.priceFormated = formatCurrency(item.price);
 
-      breadsLi.appendChild(label);
-      //const labelInput = label.querySelector("input") as HTMLInputElement;
-      //labelInput.addEventListener("change", productSelectedChange);
+      const label = appendChild(
+        "label",
+        eval("`" + tpl.innerText + "`"),
+        options
+      );
+
+      const labelInput = label.querySelector("input") as HTMLInputElement;
+
+      labelInput.addEventListener("change", productSelectedChange);
     });
   };
 
-  const renderIngredients = () => {
-    ingredientsLi.innerHTML = "";
-
-    ingredients.forEach((item) => {
-      const label = document.createElement("label");
-
-      label.innerHTML = `
-        <input type="radio" name="ingredients" value="${item.id}" checked />
-        <span></span>
-        <h3>${item.description}</h3>
-        <div>${formatCurrency(item.price)}</div>
-      `;
-
-      ingredientsLi.appendChild(label);
-      //const labelInput = label.querySelector("input") as HTMLInputElement;
-      //labelInput.addEventListener("change", productSelectedChange);
-    });
-  };
-
-  //renderCart();
+  renderCart();
 
   onSnapshot(collection(db, "products"), (collection) => {
-    breads = [];
-    ingredients = [];
+    products = [];
 
     collection.forEach((doc) => {
-      doc.data().name === "Pão"
-        ? breads.push(doc.data() as ProductItem)
-        : ingredients.push(doc.data() as ProductItem);
+      products.push(doc.data() as ProductItem);
     });
 
-    renderBreads();
-    renderIngredients();
+    renderProducts();
   });
 }

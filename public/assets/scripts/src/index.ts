@@ -5,7 +5,7 @@ import "./auth-current";
 import "./auth-forget";
 import "./orders";
 import "./auth-login";
-import "./products";
+//import "./products";
 import showSidebarUser from "./functions/showSidebarUser";
 
 showSidebarUser();
