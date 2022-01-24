@@ -9,6 +9,8 @@ import criaSidebarUser from "./functions/criaSidebarUser";
 const page = document.querySelector("#credicard") as HTMLFormElement;
 
 if (page) {
+  // const modais = page.querySelector("#modais") as HTMLDivElement;
+  // criaSidebarUser(modais);
   const name = page.querySelector("#name") as HTMLInputField;
   const number = page.querySelector("#number") as HTMLInputField;
   const expiry = page.querySelector("#expiry") as HTMLInputField;
@@ -18,15 +20,14 @@ if (page) {
   const btnEfetuaPagamento = page.querySelector(
     "#efetua-pagamento"
   ) as HTMLButtonElement;
-  const avatar = page.querySelector("#avatar") as HTMLImageElement;
-  const modais = page.querySelector("#modais") as HTMLDivElement;
+  const avatar = page.querySelector("#avatar") as HTMLImageElement;  
 
   const values = queryStringToJSON();
   const year = new Date().getFullYear();
   const month = new Date().getMonth();
   const valorPedido: number = +values.valor;
 
-  criaSidebarUser(modais);
+  
 
   IMask(number, {
     mask: "0000 0000 0000 0000",

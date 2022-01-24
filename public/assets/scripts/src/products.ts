@@ -3,8 +3,14 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
+import criaSidebarUser from "./functions/criaSidebarUser";
 
 const page = document.querySelector("#products") as HTMLElement;
+const modais = document.querySelector("#modais") as HTMLDivElement;
+
+// if(modais){
+//   criaSidebarUser(modais);
+// }
 
 if (page) {
   const db = getFirestore();

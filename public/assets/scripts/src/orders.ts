@@ -26,7 +26,7 @@ const ordersDb = [
 
 if (orders) {
     const modais = orders.querySelector("#modais") as HTMLDivElement;
-    criaSidebarUser(modais);
+    // criaSidebarUser(modais);
     criaModalDangerAlert(modais);
     const ulOrders = orders.querySelector('#list-orders') as HTMLUListElement;
 

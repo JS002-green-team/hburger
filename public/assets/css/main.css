@@ -941,6 +941,19 @@ body, div, section, main, article, header, footer, form, label {
 .user-modal ul {
   text-align: center;
   list-style: none;
+  position: relative;
+}
+.user-modal .logout {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding-top: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.user-modal strong {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 @keyframes deslizar {
