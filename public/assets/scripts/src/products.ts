@@ -23,14 +23,12 @@ if (page) {
   let breads: ProductItem[] = [];
   let ingredients: ProductItem[] = [];
 
-
   const breadsLi = page.querySelector(".breads") as HTMLDivElement;
   const ingredientsLi = page.querySelector(".ingredients") as HTMLElement;
   const values = queryStringToJSON();
   const buttonSaveHamburger = document.querySelector(
     "#saveHamburger"
   ) as HTMLButtonElement;
-
 
   setFormValues(form, values);
 
@@ -41,8 +39,9 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="breads" class="inputBreads" data-pao="${item.description}" value="${item.price
-        }" checked />
+        <input type="radio" name="breads" class="inputBreads" data-pao="${
+          item.description
+        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceBreads">${formatCurrency(item.price)}</div>
@@ -59,8 +58,9 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${item.description}" value="${item.price
-        }" checked />
+        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${
+          item.description
+        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceIngredients">${formatCurrency(item.price)}</div>
@@ -101,23 +101,22 @@ if (page) {
       let itemPao = e as HTMLInputElement;
       if (itemPao.checked) {
         objPao = {
-          "Pão": itemPao.dataset.pao,
-          "Ingrediente": itemPao.value
-        }
+          Pão: itemPao.dataset.pao,
+          Ingrediente: itemPao.value,
+        };
         console.dir(itemPao.dataset.pao);
         console.log("Valor: " + itemPao.value);
       }
-
-    })
+    });
 
     const tipoIngrediente = document.querySelectorAll(".inputIngredients");
     tipoPao.forEach((e) => {
       let itemIngrediente = e as HTMLInputElement;
       if (itemIngrediente.checked) {
         objIngrediente = {
-          "Pão": itemIngrediente.dataset.pao,
-          "Valor": itemIngrediente.value
-        }
+          Pão: itemIngrediente.dataset.pao,
+          Valor: itemIngrediente.value,
+        };
         console.dir(itemIngrediente.dataset.pao);
         console.log("Valor: " + itemIngrediente.value);
       }
@@ -126,7 +125,9 @@ if (page) {
     itens.push(objIngrediente);
     itens.push(objPao);
 
-    const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
+    const shoppingCart = document.querySelector(
+      "#shoppingCart"
+    ) as HTMLUListElement;
 
     let priceHamburger = 0;
     let pao = "";
@@ -136,13 +137,12 @@ if (page) {
       // if(pao){
       //   pao = e.dataset.pao?.toString();
       // }
-
     });
     productsSelected.push(Number(priceHamburger));
     quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
     subTotal += priceHamburger;
     const totalPedido = document.querySelector("#sub-total") as HTMLSpanElement;
-    totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
+    totalPedido.innerText = formatCurrency(subTotal).toString();
     console.log(productsSelected);
 
     const li = document.createElement("li");
@@ -216,6 +216,8 @@ if (btnPagar) {
   btnPagar.addEventListener("click", (e) => {
     e.preventDefault();
     console.log(itens);
-    window.location.assign(`pay.html?valor=${subTotal}?itens=${productsSelected}`);
-  })
+    window.location.assign(
+      `pay.html?valor=${subTotal}?itens=${productsSelected}`
+    );
+  });
 }
