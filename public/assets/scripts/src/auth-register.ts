@@ -40,7 +40,7 @@ if (formRegister) {
             alert("Erro: O email fornecido já está em uso.");
             break;
           default:
-            console.log(error.message);
+            alert(error.message);
         }
       });
   });
