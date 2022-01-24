@@ -3,29 +3,34 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
-import criaSidebarUser from "./functions/criaSidebarUser";
+//import criaSidebarUser from "./functions/criaSidebarUser";
 
 const page = document.querySelector("#products") as HTMLElement;
-const modais = document.querySelector("#modais") as HTMLDivElement;
+//const modais = document.querySelector("#modais") as HTMLDivElement;
+const form = page.querySelector("form") as HTMLFormElement;
+const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
 
+let subTotal = 0;
+let productsSelected: number[] = [];
+let itens = [{}];
 // if(modais){
 //   criaSidebarUser(modais);
 // }
 
 if (page) {
   const db = getFirestore();
-  let productsSelected: number[] = [];
+
   let breads: ProductItem[] = [];
   let ingredients: ProductItem[] = [];
-  let subTotal = 0;
+
 
   const breadsLi = page.querySelector(".breads") as HTMLDivElement;
   const ingredientsLi = page.querySelector(".ingredients") as HTMLElement;
   const values = queryStringToJSON();
-  const form = page.querySelector("form") as HTMLFormElement;
   const buttonSaveHamburger = document.querySelector(
     "#saveHamburger"
   ) as HTMLButtonElement;
+
 
   setFormValues(form, values);
 
@@ -36,8 +41,7 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="breads" class="inputBreads" value="${
-          item.price
+        <input type="radio" name="breads" class="inputBreads" data-pao="${item.description}" value="${item.price
         }" checked />
         <span></span>
         <h3>${item.description}</h3>
@@ -55,8 +59,7 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="ingredients" class="inputIngredients" value="${
-          item.price
+        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${item.description}" value="${item.price
         }" checked />
         <span></span>
         <h3>${item.description}</h3>
@@ -91,10 +94,50 @@ if (page) {
       "#quantHamburgers"
     ) as HTMLElement;
 
+    let objPao = {};
+    let objIngrediente = {};
+    const tipoPao = document.querySelectorAll(".inputBreads");
+    tipoPao.forEach((e) => {
+      let itemPao = e as HTMLInputElement;
+      if (itemPao.checked) {
+        objPao = {
+          "Pão": itemPao.dataset.pao,
+          "Ingrediente": itemPao.value
+        }
+        console.dir(itemPao.dataset.pao);
+        console.log("Valor: " + itemPao.value);
+      }
+
+    })
+
+    const tipoIngrediente = document.querySelectorAll(".inputIngredients");
+    tipoPao.forEach((e) => {
+      let itemIngrediente = e as HTMLInputElement;
+      if (itemIngrediente.checked) {
+        objIngrediente = {
+          "Pão": itemIngrediente.dataset.pao,
+          "Valor": itemIngrediente.value
+        }
+        console.dir(itemIngrediente.dataset.pao);
+        console.log("Valor: " + itemIngrediente.value);
+      }
+    });
+
+    itens.push(objIngrediente);
+    itens.push(objPao);
+
     const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
 
     let priceHamburger = 0;
-    inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
+    let pao = "";
+    inputBreads.forEach((e) => {
+      priceHamburger += Number(e.value);
+      //console.log("Tipo de Pão: " + e.dataset.pao);
+      // if(pao){
+      //   pao = e.dataset.pao?.toString();
+      // }
+
+    });
     productsSelected.push(Number(priceHamburger));
     quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
     subTotal += priceHamburger;
@@ -129,7 +172,7 @@ if (page) {
   };
 
   //Adiciona o hamburguer criado a lista de itens de pedido
-  
+
   // const renderShoppingCart = () => {
   //   const inputBreads = document.querySelectorAll<HTMLInputElement>(
   //     "input[type=radio]:checked"
@@ -140,7 +183,7 @@ if (page) {
   //   let priceHamburger = 0;
   //   inputBreads.forEach((e) => {
   //     priceHamburger += Number(e.value)
-      
+
   //   });
   //   const li = document.createElement("li");
 
@@ -167,4 +210,12 @@ if (page) {
   // };
 
   buttonSaveHamburger.addEventListener("click", createHamburger);
+}
+
+if (btnPagar) {
+  btnPagar.addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log(itens);
+    window.location.assign(`pay.html?valor=${subTotal}?itens=${productsSelected}`);
+  })
 }
