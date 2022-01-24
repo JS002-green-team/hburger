@@ -91,6 +91,8 @@ if (page) {
       "#quantHamburgers"
     ) as HTMLElement;
 
+    const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
+
     let priceHamburger = 0;
     inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
     productsSelected.push(Number(priceHamburger));
@@ -100,31 +102,10 @@ if (page) {
     totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
     console.log(productsSelected);
 
-    renderShoppingCart();
-  };
-
-  //Adiciona o hamburguer criado a lista de itens de pedido
-  
-  const renderShoppingCart = () => {
-    const inputBreads = document.querySelectorAll<HTMLInputElement>(
-      "input[type=radio]:checked"
-    );
-    const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
-    shoppingCart.innerHTML = "";
-
-    let priceHamburger = 0;
-    inputBreads.forEach((e) => {
-      priceHamburger += Number(e.value)
-      
-    });
-    //productsSelected.push(Number(priceHamburger));
-    
-
-
     const li = document.createElement("li");
 
     li.innerHTML = `
-      <div>Hamburguer 1</div>
+      <div>Hamburguer ${productsSelected.length}</div>
       <div>${formatCurrency(priceHamburger)}</div>
       <button type="button" aria-label="Remover Hamburguer 1">
         <svg
@@ -143,7 +124,47 @@ if (page) {
     `;
 
     shoppingCart.appendChild(li);
+
+    //renderShoppingCart();
   };
+
+  //Adiciona o hamburguer criado a lista de itens de pedido
+  
+  // const renderShoppingCart = () => {
+  //   const inputBreads = document.querySelectorAll<HTMLInputElement>(
+  //     "input[type=radio]:checked"
+  //   );
+  //   const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
+  //   shoppingCart.innerHTML = "";
+
+  //   let priceHamburger = 0;
+  //   inputBreads.forEach((e) => {
+  //     priceHamburger += Number(e.value)
+      
+  //   });
+  //   const li = document.createElement("li");
+
+  //   li.innerHTML = `
+  //     <div>Hamburguer 1</div>
+  //     <div>${formatCurrency(priceHamburger)}</div>
+  //     <button type="button" aria-label="Remover Hamburguer 1">
+  //       <svg
+  //         width="24"
+  //         height="24"
+  //         viewBox="0 0 24 24"
+  //         fill="none"
+  //         xmlns="http://www.w3.org/2000/svg"
+  //       >
+  //         <path
+  //           d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+  //           fill="black"
+  //         />
+  //       </svg>
+  //     </button>
+  //   `;
+
+  //   shoppingCart.appendChild(li);
+  // };
 
   buttonSaveHamburger.addEventListener("click", createHamburger);
 }
