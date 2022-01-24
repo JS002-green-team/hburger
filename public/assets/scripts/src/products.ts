@@ -17,6 +17,7 @@ if (page) {
   let productsSelected: number[] = [];
   let breads: ProductItem[] = [];
   let ingredients: ProductItem[] = [];
+  let subTotal = 0;
 
   const breadsLi = page.querySelector(".breads") as HTMLDivElement;
   const ingredientsLi = page.querySelector(".ingredients") as HTMLElement;
@@ -80,6 +81,7 @@ if (page) {
     renderIngredients();
   });
 
+  //Cria o hamburguer quando clica no botão salvar hamburguer
   const createHamburger = (e: Event) => {
     const inputBreads = document.querySelectorAll<HTMLInputElement>(
       "input[type=radio]:checked"
@@ -93,20 +95,31 @@ if (page) {
     inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
     productsSelected.push(Number(priceHamburger));
     quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
+    subTotal += priceHamburger;
+    const totalPedido = document.querySelector("#sub-total") as HTMLSpanElement;
+    totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
+    console.log(productsSelected);
 
     renderShoppingCart();
   };
 
+  //Adiciona o hamburguer criado a lista de itens de pedido
+  
   const renderShoppingCart = () => {
     const inputBreads = document.querySelectorAll<HTMLInputElement>(
       "input[type=radio]:checked"
     );
-    const shoppingCart = document.querySelector("#shoppingCart") as HTMLElement;
+    const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
     shoppingCart.innerHTML = "";
 
     let priceHamburger = 0;
-    inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
-    productsSelected.push(Number(priceHamburger));
+    inputBreads.forEach((e) => {
+      priceHamburger += Number(e.value)
+      
+    });
+    //productsSelected.push(Number(priceHamburger));
+    
+
 
     const li = document.createElement("li");
 

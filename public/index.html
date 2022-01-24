@@ -70,15 +70,15 @@
         <footer>
             <div class="close">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
-              fill="black"
-            />
-          </svg>
+                  <path
+                    d="M16.59 8.59L12 13.17L7.41 8.59L6 10L12 16L18 10L16.59 8.59Z"
+                    fill="black"
+                  />
+                </svg>
                 <span>Esconder Bandeja</span>
             </div>
 
-            <div class="price"><small>Subtotal</small>R$ 50</div>
+            <div class="price"><small>Subtotal</small><span id="sub-total">R$ 0</span></div>
             <form action="pay.html" method="GET">
                 <input type="hidden" name="valor" value="50" />
                 <button type="submit" aria-label="Pagar">
