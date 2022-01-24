@@ -1,0 +1,12 @@
+.modal-alert-container {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(168, 43, 43, 0.5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
