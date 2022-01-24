@@ -872,9 +872,22 @@ body, div, section, main, article, header, footer, form, label {
   box-shadow: 0 0 0 10px white;
   border-radius: 10px;
   position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.modal .linha {
+  align-items: right;
+  color: black;
+  position: relative;
+  flex-direction: row;
+  padding: 10px;
+}
+.modal .linha div {
+  padding: 5px 5px 5px 5px;
+  align-items: right;
 }
 .modal h3 {
-  color: #d63031;
+  color: black;
   text-align: center;
 }
 
