@@ -1,4 +1,3 @@
-import appendChild from "./functions/appendChild";
 import formatCurrency from "./functions/formatCurrency";
 import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
@@ -13,71 +12,13 @@ if (page) {
   let breads: ProductItem[] = [];
   let ingredients: ProductItem[] = [];
 
-  const calcTotal = () => {
-    const totalElement = document.querySelector(
-      "#app > aside > footer > div.price"
-    ) as HTMLSpanElement;
-
-    const selected = breads.filter((product) =>
-      productsSelected.find((id) => product.id === id)
-    );
-
-    const total = selected
-      .map((product) => product.price)
-      .reduce((a, b) => a + b, 0);
-
-    totalElement.innerHTML = formatCurrency(total);
-  };
-
-  const renderCart = () => {
-    const tbody = page.querySelector("tbody") as HTMLTableSectionElement;
-
-    tbody.innerHTML = "";
-
-    productsSelected.forEach((id) => {
-      const linha = document.createElement("tr");
-      const product = breads.find((s) => s.id === id);
-
-      if (product) {
-        linha.innerHTML = `
-                    <tr>
-                        <td>${product.name}</td>
-                        <td class="price">${formatCurrency(product.price)}</td>
-                    </tr>
-                `;
-      }
-
-      tbody.appendChild(linha);
-    });
-  };
-
-  const productSelectedChange = (e: Event) => {
-    const input = e.target as HTMLInputElement;
-    const button = document.querySelector("[type=submit]") as HTMLButtonElement;
-
-    if (input.checked) {
-      productsSelected.push(Number(input.value));
-    } else {
-      productsSelected = productsSelected.filter(
-        (id) => id !== Number(input.value)
-      );
-    }
-
-    if (productsSelected.length) {
-      button.disabled = false;
-    } else {
-      button.disabled = true;
-    }
-
-    //calcTotal();
-    //renderCart();
-  };
-
-  const items = document.querySelector("#items") as HTMLElement;
   const breadsLi = page.querySelector(".breads") as HTMLDivElement;
-  const ingredientsLi = page.querySelector(".ingredients") as HTMLDivElement;
+  const ingredientsLi = page.querySelector(".ingredients") as HTMLElement;
   const values = queryStringToJSON();
   const form = page.querySelector("form") as HTMLFormElement;
+  const buttonSaveHamburger = document.querySelector(
+    "#saveHamburger"
+  ) as HTMLButtonElement;
 
   setFormValues(form, values);
 
@@ -88,15 +29,15 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="breads" value="${item.id}" checked />
+        <input type="radio" name="breads" class="inputBreads" value="${
+          item.price
+        }" checked />
         <span></span>
         <h3>${item.description}</h3>
-        <div>${formatCurrency(item.price)}</div>
+        <div class="priceBreads">${formatCurrency(item.price)}</div>
       `;
 
       breadsLi.appendChild(label);
-      //const labelInput = label.querySelector("input") as HTMLInputElement;
-      //labelInput.addEventListener("change", productSelectedChange);
     });
   };
 
@@ -107,19 +48,17 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="ingredients" value="${item.id}" checked />
+        <input type="radio" name="ingredients" class="inputIngredients" value="${
+          item.price
+        }" checked />
         <span></span>
         <h3>${item.description}</h3>
-        <div>${formatCurrency(item.price)}</div>
+        <div class="priceIngredients">${formatCurrency(item.price)}</div>
       `;
 
       ingredientsLi.appendChild(label);
-      //const labelInput = label.querySelector("input") as HTMLInputElement;
-      //labelInput.addEventListener("change", productSelectedChange);
     });
   };
-
-  //renderCart();
 
   onSnapshot(collection(db, "products"), (collection) => {
     breads = [];
@@ -134,4 +73,58 @@ if (page) {
     renderBreads();
     renderIngredients();
   });
+
+  const createHamburger = (e: Event) => {
+    const inputBreads = document.querySelectorAll<HTMLInputElement>(
+      "input[type=radio]:checked"
+    );
+
+    const quantHamburgers = document.querySelector(
+      "#quantHamburgers"
+    ) as HTMLElement;
+
+    let priceHamburger = 0;
+    inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
+    productsSelected.push(Number(priceHamburger));
+    quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
+
+    renderShoppingCart();
+  };
+
+  const renderShoppingCart = () => {
+    const inputBreads = document.querySelectorAll<HTMLInputElement>(
+      "input[type=radio]:checked"
+    );
+    const shoppingCart = document.querySelector("#shoppingCart") as HTMLElement;
+    shoppingCart.innerHTML = "";
+
+    let priceHamburger = 0;
+    inputBreads.forEach((e) => (priceHamburger += Number(e.value)));
+    productsSelected.push(Number(priceHamburger));
+
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <div>Hamburguer 1</div>
+      <div>${formatCurrency(priceHamburger)}</div>
+      <button type="button" aria-label="Remover Hamburguer 1">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+            fill="black"
+          />
+        </svg>
+      </button>
+    `;
+
+    shoppingCart.appendChild(li);
+  };
+
+  buttonSaveHamburger.addEventListener("click", createHamburger);
 }
