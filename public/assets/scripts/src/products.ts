@@ -6,18 +6,19 @@ import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 //import criaSidebarUser from "./functions/criaSidebarUser";
 
 const page = document.querySelector("#products") as HTMLElement;
-//const modais = document.querySelector("#modais") as HTMLDivElement;
-const form = page.querySelector("form") as HTMLFormElement;
-const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
-
-let subTotal = 0;
-let productsSelected: number[] = [];
-let itens = [{}];
-// if(modais){
-//   criaSidebarUser(modais);
-// }
 
 if (page) {
+  //const modais = document.querySelector("#modais") as HTMLDivElement;
+  const form = page.querySelector("form") as HTMLFormElement;
+  const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
+
+  let subTotal = 0;
+  let productsSelected: number[] = [];
+  let itens = [{}];
+  // if(modais){
+  //   criaSidebarUser(modais);
+  // }
+
   const db = getFirestore();
 
   let breads: ProductItem[] = [];
@@ -210,14 +211,14 @@ if (page) {
   // };
 
   buttonSaveHamburger.addEventListener("click", createHamburger);
-}
 
-if (btnPagar) {
-  btnPagar.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log(itens);
-    window.location.assign(
-      `pay.html?valor=${subTotal}?itens=${productsSelected}`
-    );
-  });
+  if (btnPagar) {
+    btnPagar.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(itens);
+      window.location.assign(
+        `pay.html?valor=${subTotal}?itens=${productsSelected}`
+      );
+    });
+  }
 }
