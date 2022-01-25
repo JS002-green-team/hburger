@@ -13,7 +13,7 @@ if (page) {
 
   let subTotal = 0;
   let productsSelected: number[] = [];
-  let itens = new Array;
+  let itens = new Array();
 
   const db = getFirestore();
 
@@ -29,8 +29,7 @@ if (page) {
 
   setFormValues(form, values);
 
-
-/*****************************Cria as li's dos pães************************ */
+  /*****************************Cria as li's dos pães************************ */
   const renderBreads = () => {
     breadsLi.innerHTML = "";
 
@@ -49,8 +48,7 @@ if (page) {
       breadsLi.appendChild(label);
     });
   };
-/*************************************************************************** */
-
+  /*************************************************************************** */
 
   /************************cira as li's dos ingredietes***********************/
   const renderIngredients = () => {
@@ -60,8 +58,9 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="ingredients" class="inputIngredients" data-ing="${item.description}" value="${item.price
-        }" checked />
+        <input type="radio" name="ingredients" class="inputIngredients" data-ing="${
+          item.description
+        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceIngredients">${formatCurrency(item.price)}</div>
@@ -72,7 +71,6 @@ if (page) {
   };
   /************************************************************************* */
 
-  
   onSnapshot(collection(db, "products"), (collection) => {
     breads = [];
     ingredients = [];
@@ -106,20 +104,20 @@ if (page) {
     const tipoPao = document.querySelectorAll(".inputBreads");
     tipoPao.forEach((e) => {
       let itemPao = e as HTMLInputElement;
-      if (itemPao.checked) {       
-          tipoDePao = itemPao.dataset.pao;
-          valorPao = itemPao.value;       
-      }      
+      if (itemPao.checked) {
+        tipoDePao = itemPao.dataset.pao;
+        valorPao = itemPao.value;
+      }
     });
 
     const tipoIngrediente = document.querySelectorAll(".inputIngredients");
     tipoIngrediente.forEach((e) => {
       let itemIngrediente = e as HTMLInputElement;
-      if (itemIngrediente.checked) {        
-          tipoDeIngrediente =  itemIngrediente.dataset.ing
-          valorIngrediente = itemIngrediente.value;       
-      }      
-    });    
+      if (itemIngrediente.checked) {
+        tipoDeIngrediente = itemIngrediente.dataset.ing;
+        valorIngrediente = itemIngrediente.value;
+      }
+    });
     /********************************************************************* */
 
     const shoppingCart = document.querySelector(
@@ -160,12 +158,12 @@ if (page) {
 
     shoppingCart.appendChild(li);
     let item = {
-      "item": "Hamburger " + productsSelected.length,
-      "pao": tipoDePao,
-      "valorPao": valorPao,
-      "ingrediente": tipoDeIngrediente,
-      "valorIngrediente": valorIngrediente
-    }
+      item: "Hamburger " + productsSelected.length,
+      pao: tipoDePao,
+      valorPao: valorPao,
+      ingrediente: tipoDeIngrediente,
+      valorIngrediente: valorIngrediente,
+    };
 
     itens.push(item);
   };
@@ -177,16 +175,21 @@ if (page) {
       e.preventDefault();
 
       let pedido = {
-        "numPedido": Math.floor(Math.random() * (99995 - 10000 + 1)) + 10000,
-        "dataPedido": format(new Date, 'yyyy-MM-dd'),
-        "valorPedido": subTotal,
-        "numItens": productsSelected.length,
-        "itensPedido": itens
-      }
+        numPedido: Math.floor(Math.random() * (99995 - 10000 + 1)) + 10000,
+        dataPedido: format(new Date(), "yyyy-MM-dd"),
+        valorPedido: subTotal,
+        numItens: productsSelected.length,
+        itensPedido: itens,
+      };
       console.log(JSON.stringify(pedido));
-      window.location.assign(
-        `pay.html?valor=${subTotal}?pedido=${JSON.stringify(pedido)}`
-      );
+      // Salva os dados na sessionStorage
+      sessionStorage.setItem("numPedido", pedido.numPedido.toString());
+      sessionStorage.setItem("dataPedido", pedido.dataPedido);
+      sessionStorage.setItem("valorPedido", pedido.valorPedido.toString());
+      sessionStorage.setItem("numItens", pedido.numItens.toString());
+      sessionStorage.setItem("itensPedido", pedido.itensPedido.toString());
+
+      window.location.assign(`pay.html?valor=${subTotal}`);
     });
   }
 }
