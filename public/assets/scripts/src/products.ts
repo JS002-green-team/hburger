@@ -6,23 +6,23 @@ import { getFirestore, onSnapshot, collection } from "firebase/firestore";
 //import criaSidebarUser from "./functions/criaSidebarUser";
 
 const page = document.querySelector("#products") as HTMLElement;
-//const modais = document.querySelector("#modais") as HTMLDivElement;
-const form = page.querySelector("form") as HTMLFormElement;
-const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
-
-let subTotal = 0;
-let productsSelected: number[] = [];
-let itens = [{}];
-// if(modais){
-//   criaSidebarUser(modais);
-// }
 
 if (page) {
+  //const modais = document.querySelector("#modais") as HTMLDivElement;
+  const form = page.querySelector("form") as HTMLFormElement;
+  const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
+
+  let subTotal = 0;
+  let productsSelected: number[] = [];
+  let itens = [{}];
+  // if(modais){
+  //   criaSidebarUser(modais);
+  // }
+
   const db = getFirestore();
 
   let breads: ProductItem[] = [];
   let ingredients: ProductItem[] = [];
-
 
   const breadsLi = page.querySelector(".breads") as HTMLDivElement;
   const ingredientsLi = page.querySelector(".ingredients") as HTMLElement;
@@ -30,7 +30,6 @@ if (page) {
   const buttonSaveHamburger = document.querySelector(
     "#saveHamburger"
   ) as HTMLButtonElement;
-
 
   setFormValues(form, values);
 
@@ -41,8 +40,9 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="breads" class="inputBreads" data-pao="${item.description}" value="${item.price
-        }" checked />
+        <input type="radio" name="breads" class="inputBreads" data-pao="${
+          item.description
+        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceBreads">${formatCurrency(item.price)}</div>
@@ -61,6 +61,9 @@ if (page) {
       label.innerHTML = `
         <input type="radio" name="ingredients" class="inputIngredients" data-ing="${item.description}" value="${item.price
         }" checked />
+        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${
+          item.description
+        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceIngredients">${formatCurrency(item.price)}</div>
@@ -123,7 +126,9 @@ if (page) {
     
     /********************************************************************* */
 
-    const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
+    const shoppingCart = document.querySelector(
+      "#shoppingCart"
+    ) as HTMLUListElement;
 
     let priceHamburger = 0;
     let pao = "";
@@ -210,12 +215,14 @@ if (page) {
   // };
 
   buttonSaveHamburger.addEventListener("click", createHamburger);
-}
 
-if (btnPagar) {
-  btnPagar.addEventListener("click", (e) => {
-    e.preventDefault();
-    //console.log(itens);
-    //window.location.assign(`pay.html?valor=${subTotal}?itens=${productsSelected}`);
-  })
+  if (btnPagar) {
+    btnPagar.addEventListener("click", (e) => {
+      e.preventDefault();
+      console.log(itens);
+      window.location.assign(
+        `pay.html?valor=${subTotal}?itens=${productsSelected}`
+      );
+    });
+  }
 }
