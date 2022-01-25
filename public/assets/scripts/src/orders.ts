@@ -4,90 +4,97 @@ import acionaModalPadrao from "./functions/acionaModalPadrao";
 import criaModalDangerAlert from "./functions/criaModalDangerAlert";
 import criaSidebarUser from "./functions/criaSidebarUser";
 
-const orders = document.querySelector('#orders');
-
-
+const orders = document.querySelector("#orders");
 interface isOrder {
-    date: string,
-    price: string,
-    itens: number
-    id: number
+  date: string;
+  price: string;
+  itens: number;
+  id: number;
 }
 
 const ordersDb = [
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 11111111 },
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 22222222 },
-    { "date": "17/01/2022", "price": "49,50", "itens": 2, "id": 33333333 },
-    { "date": "18/01/2022", "price": "149,50", "itens": 2, "id": 44444444 },
-    { "date": "19/01/2022", "price": "49,50", "itens": 2, "id": 55555555 },
-    { "date": "20/01/2022", "price": "249,50", "itens": 2, "id": 6666666 },
-    { "date": "21/01/2022", "price": "149,50", "itens": 2, "id": 77777777 },
-    { "date": "22/01/2022", "price": "349,50", "itens": 2, "id": 8888888 },
+  { date: "17/01/2022", price: "49,50", itens: 2, id: 11111111 },
+  { date: "17/01/2022", price: "49,50", itens: 2, id: 22222222 },
+  { date: "17/01/2022", price: "49,50", itens: 2, id: 33333333 },
+  { date: "18/01/2022", price: "149,50", itens: 2, id: 44444444 },
+  { date: "19/01/2022", price: "49,50", itens: 2, id: 55555555 },
+  { date: "20/01/2022", price: "249,50", itens: 2, id: 6666666 },
+  { date: "21/01/2022", price: "149,50", itens: 2, id: 77777777 },
+  { date: "22/01/2022", price: "349,50", itens: 2, id: 8888888 },
 ];
 
 if (orders) {
-    const modais = orders.querySelector("#modais") as HTMLDivElement;
-    // criaSidebarUser(modais);
-    criaModalDangerAlert(modais);
-    const ulOrders = orders.querySelector('#list-orders') as HTMLUListElement;
+  const modais = orders.querySelector("#modais") as HTMLDivElement;
+  // criaSidebarUser(modais);
+  criaModalDangerAlert(modais);
+  const ulOrders = orders.querySelector("#list-orders") as HTMLUListElement;
 
-    cleanEl(ulOrders);
-    let cont = 0;
-    ordersDb.forEach(el => {
-        let li = createOrderTicket(el, cont);
-        cont++;
-        showContent(ulOrders, li);
+  cleanEl(ulOrders);
+  let cont = 0;
+  ordersDb.forEach((el) => {
+    let li = createOrderTicket(el, cont);
+    cont++;
+    showContent(ulOrders, li);
+  });
+  const orderDetails = orders.querySelectorAll(".details");
+  const excluir = orders.querySelectorAll(".exclude");
+
+  orderDetails.forEach((el) => {
+    let btnDetails = el as HTMLButtonElement;
+    el.addEventListener("click", (e) => {
+      if (btnDetails.dataset.pedido) {
+        let pedido: number = +btnDetails.dataset.pedido;
+        let cabecalho = orders?.querySelector(
+          "#modal-padrao h3"
+        ) as HTMLHeadingElement;
+        let data = orders.querySelector(
+          "#modal-padrao #data"
+        ) as HTMLButtonElement;
+        let valor = orders.querySelector(
+          "#modal-padrao #valor"
+        ) as HTMLButtonElement;
+        let item = orders.querySelector(
+          "#modal-padrao #item"
+        ) as HTMLButtonElement;
+
+        cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
+        data.innerText = "Dia" + ordersDb[pedido].date;
+        valor.innerText = "R$ " + ordersDb[pedido].price;
+        item.innerText = ordersDb[pedido].itens.toString();
+      }
+      acionaModalPadrao("modal-padrao");
+      console.log(btnDetails.dataset.pedido);
     });
-    const orderDetails = orders.querySelectorAll(".details");
-    const excluir = orders.querySelectorAll(".exclude");
+  });
 
-    orderDetails.forEach(el => {
-        let btnDetails = el as HTMLButtonElement;
-        el.addEventListener("click", (e) => {
-            if (btnDetails.dataset.pedido) {
-                let pedido: number = +btnDetails.dataset.pedido;
-                let cabecalho = orders?.querySelector("#modal-padrao h3") as HTMLHeadingElement;
-                let data = orders.querySelector("#modal-padrao #data") as HTMLButtonElement;
-                let valor = orders.querySelector("#modal-padrao #valor") as HTMLButtonElement;
-                let item = orders.querySelector("#modal-padrao #item") as HTMLButtonElement;
-
-                cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
-                data.innerText = "Dia" + ordersDb[pedido].date;
-                valor.innerText = "R$ " + ordersDb[pedido].price;
-                item.innerText = ordersDb[pedido].itens.toString();
-            }
-            acionaModalPadrao("modal-padrao");
-            console.log(btnDetails.dataset.pedido);
-        })
+  excluir.forEach((el) => {
+    let btnExcluir = el as HTMLButtonElement;
+    el.addEventListener("click", (e) => {
+      console.log(ordersDb);
+      if (btnExcluir.dataset.excluir) {
+        let objPosition: number = +btnExcluir.dataset.excluir;
+        console.dir(ordersDb[objPosition].id);
+        acionaModalDangerAlert(
+          "Tem certeza que deseja excluir o pedido: ",
+          ordersDb[objPosition].id.toString()
+        );
+        ordersDb.splice(objPosition, 1);
+        console.log(ordersDb);
+      }
     });
-
-    excluir.forEach(el => {
-        let btnExcluir = el as HTMLButtonElement;
-        el.addEventListener("click", (e) => {
-            console.log(ordersDb);
-            if (btnExcluir.dataset.excluir) {
-                let objPosition: number = +btnExcluir.dataset.excluir;
-                console.dir(ordersDb[objPosition].id);
-                acionaModalDangerAlert("Tem certeza que deseja excluir o pedido: ", ordersDb[objPosition].id.toString());
-                ordersDb.splice(objPosition, 1);
-                console.log(ordersDb);
-            }
-        })
-    })
+  });
 }
 
 function cleanEl(el: HTMLUListElement) {
-    el.innerHTML = "";
+  el.innerHTML = "";
 }
 
 function showContent(el: HTMLUListElement, content: string) {
-    el.innerHTML += content;
+  el.innerHTML += content;
 }
 
-
-
 function createOrderTicket(el: isOrder, cont: number) {
-    let li = `<li>
+  let li = `<li>
         <div class="id">#${el.id}</div>
         <div class="content">
             <div class="title">Detalhes do Pedido</div>
@@ -128,5 +135,5 @@ function createOrderTicket(el: isOrder, cont: number) {
         </button>
         </div>
     </li>`;
-    return li;
+  return li;
 }
