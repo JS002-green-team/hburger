@@ -20,14 +20,12 @@ if (page) {
   const btnEfetuaPagamento = page.querySelector(
     "#efetua-pagamento"
   ) as HTMLButtonElement;
-  const avatar = page.querySelector("#avatar") as HTMLImageElement;  
+  const avatar = page.querySelector("#avatar") as HTMLImageElement;
 
   const values = queryStringToJSON();
   const year = new Date().getFullYear();
   const month = new Date().getMonth();
   const valorPedido: number = +values.valor;
-
-  
 
   IMask(number, {
     mask: "0000 0000 0000 0000",
@@ -138,5 +136,16 @@ if (page) {
       };
       console.log(dados);
     }
+
+    // Salva os dados na sessionStorage
+    sessionStorage.setItem("nome", dados.nome);
+    sessionStorage.setItem("numero", dados.numero);
+    sessionStorage.setItem("dtExpiracao", dados.dtExpiracao);
+    sessionStorage.setItem("cvv", dados.cvv);
+    sessionStorage.setItem("numParcelas", dados.numParcelas.toString());
+    sessionStorage.setItem("valorParcela", dados.valorParcela.toString());
+    sessionStorage.setItem("banco", dados.banco);
+
+    window.location.assign("orders.html");
   });
 }
