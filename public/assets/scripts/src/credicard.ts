@@ -5,11 +5,13 @@ import IMask from "imask";
 import iniciaModal from "./functions/acionaModal";
 import showSidebarUser from "./functions/showSidebarUser";
 import criaSidebarUser from "./functions/criaSidebarUser";
+import formatCurrency from "./functions/formatCurrency";
 
 const page = document.querySelector("#credicard") as HTMLFormElement;
 
 if (page) {
-  
+  // const modais = page.querySelector("#modais") as HTMLDivElement;
+  // criaSidebarUser(modais);
   const name = page.querySelector("#name") as HTMLInputField;
   const number = page.querySelector("#number") as HTMLInputField;
   const expiry = page.querySelector("#expiry") as HTMLInputField;
@@ -70,24 +72,26 @@ if (page) {
       const numParcelas = Math.trunc(valorPedido / 50);
       if (numParcelas <= 4) {
         for (let i = 1; i <= numParcelas; i++) {
+          let valorParcela = valorPedido / i;
           let option = document.createElement("option");
-          option.innerHTML = `<option value="${i}">${i} parcela de R$ ${
-            valorPedido / i
-          } (R$ ${valorPedido / i})</option>`;
+          option.innerHTML = `<option value="${i}">${i} parcela de ${
+            formatCurrency(valorParcela)
+          } (${formatCurrency(valorParcela)})</option>`;
           selectParcelas.appendChild(option);
         }
       } else {
         for (let i = 1; i <= 4; i++) {
+          let valorParcela = valorPedido / i;
           let option = document.createElement("option");
-          option.innerHTML = `<option value="${i}">${i} parcela de R$ ${
-            valorPedido / i
-          } (R$ ${valorPedido / i})</option>`;
+          option.innerHTML = `<option value="${i}">${i} parcela de ${
+            formatCurrency(valorParcela)
+          } (${formatCurrency(valorParcela)})</option>`;
           selectParcelas.appendChild(option);
         }
       }
     } else {
       let option = document.createElement("option");
-      option.innerHTML = `<option value="1">1 parcela de R$ ${valorPedido} (R$ ${valorPedido})</option>`;
+      option.innerHTML = `<option value="1">1 parcela de ${formatCurrency(valorPedido)} (${formatCurrency(valorPedido)})</option>`;
       selectParcelas.appendChild(option);
     }
   };
