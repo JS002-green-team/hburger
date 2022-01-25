@@ -9,8 +9,7 @@ import criaSidebarUser from "./functions/criaSidebarUser";
 const page = document.querySelector("#credicard") as HTMLFormElement;
 
 if (page) {
-  // const modais = page.querySelector("#modais") as HTMLDivElement;
-  // criaSidebarUser(modais);
+  
   const name = page.querySelector("#name") as HTMLInputField;
   const number = page.querySelector("#number") as HTMLInputField;
   const expiry = page.querySelector("#expiry") as HTMLInputField;

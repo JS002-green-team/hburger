@@ -3,21 +3,17 @@ import queryStringToJSON from "./functions/queryStringToJSON";
 import setFormValues from "./functions/setFormValues";
 import { ProductItem } from "./types/productItem";
 import { getFirestore, onSnapshot, collection } from "firebase/firestore";
-//import criaSidebarUser from "./functions/criaSidebarUser";
+import { format } from "date-fns";
 
 const page = document.querySelector("#products") as HTMLElement;
 
 if (page) {
-  //const modais = document.querySelector("#modais") as HTMLDivElement;
   const form = page.querySelector("form") as HTMLFormElement;
   const btnPagar = document.querySelector("#pagar-pedido") as HTMLButtonElement;
 
   let subTotal = 0;
   let productsSelected: number[] = [];
-  let itens = [{}];
-  // if(modais){
-  //   criaSidebarUser(modais);
-  // }
+  let itens = new Array;
 
   const db = getFirestore();
 
@@ -33,6 +29,8 @@ if (page) {
 
   setFormValues(form, values);
 
+
+/*****************************Cria as li's dos pães************************ */
   const renderBreads = () => {
     breadsLi.innerHTML = "";
 
@@ -51,7 +49,10 @@ if (page) {
       breadsLi.appendChild(label);
     });
   };
+/*************************************************************************** */
 
+
+  /************************cira as li's dos ingredietes***********************/
   const renderIngredients = () => {
     ingredientsLi.innerHTML = "";
 
@@ -61,9 +62,6 @@ if (page) {
       label.innerHTML = `
         <input type="radio" name="ingredients" class="inputIngredients" data-ing="${item.description}" value="${item.price
         }" checked />
-        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${
-          item.description
-        }" value="${item.price}" checked />
         <span></span>
         <h3>${item.description}</h3>
         <div class="priceIngredients">${formatCurrency(item.price)}</div>
@@ -72,7 +70,9 @@ if (page) {
       ingredientsLi.appendChild(label);
     });
   };
+  /************************************************************************* */
 
+  
   onSnapshot(collection(db, "products"), (collection) => {
     breads = [];
     ingredients = [];
@@ -87,7 +87,7 @@ if (page) {
     renderIngredients();
   });
 
-  //Cria o hamburguer quando clica no botão salvar hamburguer
+  /*********Cria o hamburguer quando clica no botão salvar hamburguer******** */
   const createHamburger = (e: Event) => {
     const inputBreads = document.querySelectorAll<HTMLInputElement>(
       "input[type=radio]:checked"
@@ -98,32 +98,28 @@ if (page) {
     ) as HTMLElement;
 
     //************************teste Marcelo********************************
-    let objPao = {};
     let objIngrediente = {};
+    let tipoDePao;
+    let valorPao;
+    let tipoDeIngrediente;
+    let valorIngrediente;
     const tipoPao = document.querySelectorAll(".inputBreads");
     tipoPao.forEach((e) => {
       let itemPao = e as HTMLInputElement;
-      if (itemPao.checked) {
-        objPao = {
-          "pao": itemPao.dataset.pao,
-          "valor": itemPao.value
-        }
+      if (itemPao.checked) {       
+          tipoDePao = itemPao.dataset.pao;
+          valorPao = itemPao.value;       
       }      
     });
-    console.log(objPao);
 
     const tipoIngrediente = document.querySelectorAll(".inputIngredients");
     tipoIngrediente.forEach((e) => {
       let itemIngrediente = e as HTMLInputElement;
-      if (itemIngrediente.checked) {
-        objIngrediente = {
-          "ingrediente": itemIngrediente.dataset.ing,
-          "valor": itemIngrediente.value
-        }
+      if (itemIngrediente.checked) {        
+          tipoDeIngrediente =  itemIngrediente.dataset.ing
+          valorIngrediente = itemIngrediente.value;       
       }      
-    });
-    console.log(objIngrediente);
-    
+    });    
     /********************************************************************* */
 
     const shoppingCart = document.querySelector(
@@ -140,7 +136,6 @@ if (page) {
     subTotal += priceHamburger;
     const totalPedido = document.querySelector("#sub-total") as HTMLSpanElement;
     totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
-    //console.log(productsSelected);
 
     const li = document.createElement("li");
 
@@ -164,64 +159,33 @@ if (page) {
     `;
 
     shoppingCart.appendChild(li);
-    // let hamburguer = {
-    //   "item": "Hamburger " + productsSelected.length,
-    //   "tipoPao": objPao.pao,
+    let item = {
+      "item": "Hamburger " + productsSelected.length,
+      "pao": tipoDePao,
+      "valorPao": valorPao,
+      "ingrediente": tipoDeIngrediente,
+      "valorIngrediente": valorIngrediente
+    }
 
-
-    // }
-    // itens.push(objIngrediente);
-    // itens.push(objPao);
-
-    //renderShoppingCart();
+    itens.push(item);
   };
-
-  //Adiciona o hamburguer criado a lista de itens de pedido
-
-  // const renderShoppingCart = () => {
-  //   const inputBreads = document.querySelectorAll<HTMLInputElement>(
-  //     "input[type=radio]:checked"
-  //   );
-  //   const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
-  //   shoppingCart.innerHTML = "";
-
-  //   let priceHamburger = 0;
-  //   inputBreads.forEach((e) => {
-  //     priceHamburger += Number(e.value)
-
-  //   });
-  //   const li = document.createElement("li");
-
-  //   li.innerHTML = `
-  //     <div>Hamburguer 1</div>
-  //     <div>${formatCurrency(priceHamburger)}</div>
-  //     <button type="button" aria-label="Remover Hamburguer 1">
-  //       <svg
-  //         width="24"
-  //         height="24"
-  //         viewBox="0 0 24 24"
-  //         fill="none"
-  //         xmlns="http://www.w3.org/2000/svg"
-  //       >
-  //         <path
-  //           d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
-  //           fill="black"
-  //         />
-  //       </svg>
-  //     </button>
-  //   `;
-
-  //   shoppingCart.appendChild(li);
-  // };
 
   buttonSaveHamburger.addEventListener("click", createHamburger);
 
   if (btnPagar) {
     btnPagar.addEventListener("click", (e) => {
       e.preventDefault();
-      console.log(itens);
+
+      let pedido = {
+        "numPedido": Math.floor(Math.random() * (99995 - 10000 + 1)) + 10000,
+        "dataPedido": format(new Date, 'yyyy-MM-dd'),
+        "valorPedido": subTotal,
+        "numItens": productsSelected.length,
+        "itensPedido": itens
+      }
+      console.log(JSON.stringify(pedido));
       window.location.assign(
-        `pay.html?valor=${subTotal}?itens=${productsSelected}`
+        `pay.html?valor=${subTotal}?pedido=${JSON.stringify(pedido)}`
       );
     });
   }
