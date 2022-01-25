@@ -40,82 +40,81 @@ const ordersDb = [
   },
 ];
 
-console.log(ordersDb);
+if (orders) {
+  if (ordersDb.length != 0) {
+    if (ordersDb) {
+      const modais = orders.querySelector("#modais") as HTMLDivElement;
+      // criaSidebarUser(modais);
+      criaModalDangerAlert(modais);
+      const ulOrders = orders.querySelector("#list-orders") as HTMLUListElement;
 
-if (ordersDb.length != 0) {
-  if (ordersDb) {
-    const modais = orders.querySelector("#modais") as HTMLDivElement;
-    // criaSidebarUser(modais);
-    criaModalDangerAlert(modais);
-    const ulOrders = orders.querySelector("#list-orders") as HTMLUListElement;
-
-    cleanEl(ulOrders);
-    let cont = 0;
-    ordersDb.forEach((el) => {
-      let li = createOrderTicket(el, cont);
-      cont++;
-      showContent(ulOrders, li);
-    });
-    const orderDetails = orders.querySelectorAll(".details");
-    const excluir = orders.querySelectorAll(".exclude");
-
-    orderDetails.forEach((el) => {
-      let btnDetails = el as HTMLButtonElement;
-      el.addEventListener("click", (e) => {
-        if (btnDetails.dataset.pedido) {
-          let pedido: number = +btnDetails.dataset.pedido;
-          let cabecalho = orders?.querySelector(
-            "#modal-padrao h3"
-          ) as HTMLHeadingElement;
-          let data = orders.querySelector(
-            "#modal-padrao #data"
-          ) as HTMLButtonElement;
-          let valor = orders.querySelector(
-            "#modal-padrao #valor"
-          ) as HTMLButtonElement;
-          let item = orders.querySelector(
-            "#modal-padrao #item"
-          ) as HTMLButtonElement;
-
-          cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
-          data.innerText = "Dia" + ordersDb[pedido].date;
-          valor.innerText = "R$ " + ordersDb[pedido].price;
-          item.innerText = ordersDb[pedido].itens.toString();
-        }
-        acionaModalPadrao("modal-padrao");
-        console.log(btnDetails.dataset.pedido);
+      cleanEl(ulOrders);
+      let cont = 0;
+      ordersDb.forEach((el) => {
+        let li = createOrderTicket(el, cont);
+        cont++;
+        showContent(ulOrders, li);
       });
-    });
+      const orderDetails = orders.querySelectorAll(".details");
+      const excluir = orders.querySelectorAll(".exclude");
 
-    excluir.forEach((el) => {
-      let btnExcluir = el as HTMLButtonElement;
-      el.addEventListener("click", (e) => {
-        console.log(ordersDb);
-        if (btnExcluir.dataset.excluir) {
-          let objPosition: number = +btnExcluir.dataset.excluir;
-          console.dir(ordersDb[objPosition].id);
-          acionaModalDangerAlert(
-            "Tem certeza que deseja excluir o pedido: ",
-            ordersDb[objPosition].id.toString()
-          );
-          ordersDb.splice(objPosition, 1);
+      orderDetails.forEach((el) => {
+        let btnDetails = el as HTMLButtonElement;
+        el.addEventListener("click", (e) => {
+          if (btnDetails.dataset.pedido) {
+            let pedido: number = +btnDetails.dataset.pedido;
+            let cabecalho = orders?.querySelector(
+              "#modal-padrao h3"
+            ) as HTMLHeadingElement;
+            let data = orders.querySelector(
+              "#modal-padrao #data"
+            ) as HTMLButtonElement;
+            let valor = orders.querySelector(
+              "#modal-padrao #valor"
+            ) as HTMLButtonElement;
+            let item = orders.querySelector(
+              "#modal-padrao #item"
+            ) as HTMLButtonElement;
+
+            cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
+            data.innerText = "Dia" + ordersDb[pedido].date;
+            valor.innerText = "R$ " + ordersDb[pedido].price;
+            item.innerText = ordersDb[pedido].itens.toString();
+          }
+          acionaModalPadrao("modal-padrao");
+          console.log(btnDetails.dataset.pedido);
+        });
+      });
+
+      excluir.forEach((el) => {
+        let btnExcluir = el as HTMLButtonElement;
+        el.addEventListener("click", (e) => {
           console.log(ordersDb);
-        }
+          if (btnExcluir.dataset.excluir) {
+            let objPosition: number = +btnExcluir.dataset.excluir;
+            console.dir(ordersDb[objPosition].id);
+            acionaModalDangerAlert(
+              "Tem certeza que deseja excluir o pedido: ",
+              ordersDb[objPosition].id.toString()
+            );
+            ordersDb.splice(objPosition, 1);
+            console.log(ordersDb);
+          }
+        });
       });
-    });
+    }
   }
-}
 
-function cleanEl(el: HTMLUListElement) {
-  el.innerHTML = "";
-}
+  function cleanEl(el: HTMLUListElement) {
+    el.innerHTML = "";
+  }
 
-function showContent(el: HTMLUListElement, content: string) {
-  el.innerHTML += content;
-}
+  function showContent(el: HTMLUListElement, content: string) {
+    el.innerHTML += content;
+  }
 
-function createOrderTicket(el: isOrder, cont: number) {
-  let li = `<li>
+  function createOrderTicket(el: isOrder, cont: number) {
+    let li = `<li>
         <div class="id">#${el.id}</div>
         <div class="content">
             <div class="title">Detalhes do Pedido</div>
@@ -156,5 +155,6 @@ function createOrderTicket(el: isOrder, cont: number) {
         </button>
         </div>
     </li>`;
-  return li;
+    return li;
+  }
 }
