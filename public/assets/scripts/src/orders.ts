@@ -4,85 +4,106 @@ import acionaModalPadrao from "./functions/acionaModalPadrao";
 import criaModalDangerAlert from "./functions/criaModalDangerAlert";
 import criaSidebarUser from "./functions/criaSidebarUser";
 
-const orders = document.querySelector("#orders");
+const orders = document.querySelector("#orders") as HTMLElement;
 interface isOrder {
   date: string;
   price: string;
-  itens: number;
-  id: number;
+  itens: string;
+  id: string;
 }
 
+// Obtém os dados da sessionStorage
+let dataPedido = sessionStorage.getItem("dataPedido");
+let valorPedido = sessionStorage.getItem("valorPedido");
+let numItens = sessionStorage.getItem("numItens");
+let numPedido = sessionStorage.getItem("numItens");
+
+// const ordersDb = [
+//   { date: "17/01/2022", price: "49,50", itens: 2, id: 11111111 },
+//   { date: "17/01/2022", price: "49,50", itens: 2, id: 22222222 },
+//   { date: "17/01/2022", price: "49,50", itens: 2, id: 33333333 },
+//   { date: "18/01/2022", price: "149,50", itens: 2, id: 44444444 },
+//   { date: "19/01/2022", price: "49,50", itens: 2, id: 55555555 },
+//   { date: "20/01/2022", price: "249,50", itens: 2, id: 6666666 },
+//   { date: "21/01/2022", price: "149,50", itens: 2, id: 77777777 },
+//   { date: "22/01/2022", price: "349,50", itens: 2, id: 8888888 },
+// ];
+
 const ordersDb = [
-  { date: "17/01/2022", price: "49,50", itens: 2, id: 11111111 },
-  { date: "17/01/2022", price: "49,50", itens: 2, id: 22222222 },
-  { date: "17/01/2022", price: "49,50", itens: 2, id: 33333333 },
-  { date: "18/01/2022", price: "149,50", itens: 2, id: 44444444 },
-  { date: "19/01/2022", price: "49,50", itens: 2, id: 55555555 },
-  { date: "20/01/2022", price: "249,50", itens: 2, id: 6666666 },
-  { date: "21/01/2022", price: "149,50", itens: 2, id: 77777777 },
-  { date: "22/01/2022", price: "349,50", itens: 2, id: 8888888 },
+  {
+    date: dataPedido
+      ? new Date(dataPedido).toLocaleString("pt-BR").toString()
+      : "",
+    price: valorPedido ? valorPedido : "0",
+    itens: numItens ? numItens : "0",
+    id: numPedido ? numPedido : "0",
+  },
 ];
 
-if (orders) {
-  const modais = orders.querySelector("#modais") as HTMLDivElement;
-  // criaSidebarUser(modais);
-  criaModalDangerAlert(modais);
-  const ulOrders = orders.querySelector("#list-orders") as HTMLUListElement;
+console.log(ordersDb);
 
-  cleanEl(ulOrders);
-  let cont = 0;
-  ordersDb.forEach((el) => {
-    let li = createOrderTicket(el, cont);
-    cont++;
-    showContent(ulOrders, li);
-  });
-  const orderDetails = orders.querySelectorAll(".details");
-  const excluir = orders.querySelectorAll(".exclude");
+if (ordersDb.length != 0) {
+  if (ordersDb) {
+    const modais = orders.querySelector("#modais") as HTMLDivElement;
+    // criaSidebarUser(modais);
+    criaModalDangerAlert(modais);
+    const ulOrders = orders.querySelector("#list-orders") as HTMLUListElement;
 
-  orderDetails.forEach((el) => {
-    let btnDetails = el as HTMLButtonElement;
-    el.addEventListener("click", (e) => {
-      if (btnDetails.dataset.pedido) {
-        let pedido: number = +btnDetails.dataset.pedido;
-        let cabecalho = orders?.querySelector(
-          "#modal-padrao h3"
-        ) as HTMLHeadingElement;
-        let data = orders.querySelector(
-          "#modal-padrao #data"
-        ) as HTMLButtonElement;
-        let valor = orders.querySelector(
-          "#modal-padrao #valor"
-        ) as HTMLButtonElement;
-        let item = orders.querySelector(
-          "#modal-padrao #item"
-        ) as HTMLButtonElement;
-
-        cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
-        data.innerText = "Dia" + ordersDb[pedido].date;
-        valor.innerText = "R$ " + ordersDb[pedido].price;
-        item.innerText = ordersDb[pedido].itens.toString();
-      }
-      acionaModalPadrao("modal-padrao");
-      console.log(btnDetails.dataset.pedido);
+    cleanEl(ulOrders);
+    let cont = 0;
+    ordersDb.forEach((el) => {
+      let li = createOrderTicket(el, cont);
+      cont++;
+      showContent(ulOrders, li);
     });
-  });
+    const orderDetails = orders.querySelectorAll(".details");
+    const excluir = orders.querySelectorAll(".exclude");
 
-  excluir.forEach((el) => {
-    let btnExcluir = el as HTMLButtonElement;
-    el.addEventListener("click", (e) => {
-      console.log(ordersDb);
-      if (btnExcluir.dataset.excluir) {
-        let objPosition: number = +btnExcluir.dataset.excluir;
-        console.dir(ordersDb[objPosition].id);
-        acionaModalDangerAlert(
-          "Tem certeza que deseja excluir o pedido: ",
-          ordersDb[objPosition].id.toString()
-        );
-        ordersDb.splice(objPosition, 1);
+    orderDetails.forEach((el) => {
+      let btnDetails = el as HTMLButtonElement;
+      el.addEventListener("click", (e) => {
+        if (btnDetails.dataset.pedido) {
+          let pedido: number = +btnDetails.dataset.pedido;
+          let cabecalho = orders?.querySelector(
+            "#modal-padrao h3"
+          ) as HTMLHeadingElement;
+          let data = orders.querySelector(
+            "#modal-padrao #data"
+          ) as HTMLButtonElement;
+          let valor = orders.querySelector(
+            "#modal-padrao #valor"
+          ) as HTMLButtonElement;
+          let item = orders.querySelector(
+            "#modal-padrao #item"
+          ) as HTMLButtonElement;
+
+          cabecalho.innerText = "Pedido: " + ordersDb[pedido].id;
+          data.innerText = "Dia" + ordersDb[pedido].date;
+          valor.innerText = "R$ " + ordersDb[pedido].price;
+          item.innerText = ordersDb[pedido].itens.toString();
+        }
+        acionaModalPadrao("modal-padrao");
+        console.log(btnDetails.dataset.pedido);
+      });
+    });
+
+    excluir.forEach((el) => {
+      let btnExcluir = el as HTMLButtonElement;
+      el.addEventListener("click", (e) => {
         console.log(ordersDb);
-      }
+        if (btnExcluir.dataset.excluir) {
+          let objPosition: number = +btnExcluir.dataset.excluir;
+          console.dir(ordersDb[objPosition].id);
+          acionaModalDangerAlert(
+            "Tem certeza que deseja excluir o pedido: ",
+            ordersDb[objPosition].id.toString()
+          );
+          ordersDb.splice(objPosition, 1);
+          console.log(ordersDb);
+        }
+      });
     });
-  });
+  }
 }
 
 function cleanEl(el: HTMLUListElement) {
