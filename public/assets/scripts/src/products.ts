@@ -133,7 +133,7 @@ if (page) {
     quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
     subTotal += priceHamburger;
     const totalPedido = document.querySelector("#sub-total") as HTMLSpanElement;
-    totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
+    totalPedido.innerText = formatCurrency(subTotal).toString();
 
     const li = document.createElement("li");
 
@@ -181,7 +181,7 @@ if (page) {
         numItens: productsSelected.length,
         itensPedido: itens,
       };
-      console.log(JSON.stringify(pedido));
+      //console.log(JSON.stringify(pedido));
       // Salva os dados na sessionStorage
       sessionStorage.setItem("numPedido", pedido.numPedido.toString());
       sessionStorage.setItem("dataPedido", pedido.dataPedido);
