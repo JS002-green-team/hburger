@@ -59,7 +59,7 @@ if (page) {
       const label = document.createElement("label");
 
       label.innerHTML = `
-        <input type="radio" name="ingredients" class="inputIngredients" data-ingrediente="${item.description}" value="${item.price
+        <input type="radio" name="ingredients" class="inputIngredients" data-ing="${item.description}" value="${item.price
         }" checked />
         <span></span>
         <h3>${item.description}</h3>
@@ -94,6 +94,7 @@ if (page) {
       "#quantHamburgers"
     ) as HTMLElement;
 
+    //************************teste Marcelo********************************
     let objPao = {};
     let objIngrediente = {};
     const tipoPao = document.querySelectorAll(".inputBreads");
@@ -101,30 +102,26 @@ if (page) {
       let itemPao = e as HTMLInputElement;
       if (itemPao.checked) {
         objPao = {
-          "Pão": itemPao.dataset.pao,
-          "Ingrediente": itemPao.value
+          "pao": itemPao.dataset.pao,
+          "valor": itemPao.value
         }
-        console.dir(itemPao.dataset.pao);
-        console.log("Valor: " + itemPao.value);
-      }
-
-    })
+      }      
+    });
+    console.log(objPao);
 
     const tipoIngrediente = document.querySelectorAll(".inputIngredients");
-    tipoPao.forEach((e) => {
+    tipoIngrediente.forEach((e) => {
       let itemIngrediente = e as HTMLInputElement;
       if (itemIngrediente.checked) {
         objIngrediente = {
-          "Pão": itemIngrediente.dataset.pao,
-          "Valor": itemIngrediente.value
+          "ingrediente": itemIngrediente.dataset.ing,
+          "valor": itemIngrediente.value
         }
-        console.dir(itemIngrediente.dataset.pao);
-        console.log("Valor: " + itemIngrediente.value);
-      }
+      }      
     });
-
-    itens.push(objIngrediente);
-    itens.push(objPao);
+    console.log(objIngrediente);
+    
+    /********************************************************************* */
 
     const shoppingCart = document.querySelector("#shoppingCart") as HTMLUListElement;
 
@@ -132,18 +129,13 @@ if (page) {
     let pao = "";
     inputBreads.forEach((e) => {
       priceHamburger += Number(e.value);
-      //console.log("Tipo de Pão: " + e.dataset.pao);
-      // if(pao){
-      //   pao = e.dataset.pao?.toString();
-      // }
-
     });
     productsSelected.push(Number(priceHamburger));
     quantHamburgers.innerText = `${productsSelected.length} hamburguers`;
     subTotal += priceHamburger;
     const totalPedido = document.querySelector("#sub-total") as HTMLSpanElement;
     totalPedido.innerText = "R$ " + formatCurrency(subTotal).toString();
-    console.log(productsSelected);
+    //console.log(productsSelected);
 
     const li = document.createElement("li");
 
@@ -167,6 +159,14 @@ if (page) {
     `;
 
     shoppingCart.appendChild(li);
+    // let hamburguer = {
+    //   "item": "Hamburger " + productsSelected.length,
+    //   "tipoPao": objPao.pao,
+
+
+    // }
+    // itens.push(objIngrediente);
+    // itens.push(objPao);
 
     //renderShoppingCart();
   };
@@ -215,7 +215,7 @@ if (page) {
 if (btnPagar) {
   btnPagar.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log(itens);
-    window.location.assign(`pay.html?valor=${subTotal}?itens=${productsSelected}`);
+    //console.log(itens);
+    //window.location.assign(`pay.html?valor=${subTotal}?itens=${productsSelected}`);
   })
 }
